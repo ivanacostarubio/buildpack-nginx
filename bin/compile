@@ -53,6 +53,11 @@ for filename in `find . -name pubspec.yaml`; do
      cd $BUILD_DIR/$pub_dir
      message "*** Running pub get"
      /app/dart-sdk/bin/pub get
+
+
+     message "IVAN TEST"
+     message `ls -la`
+     message `ls -la packages/`
  done
 
 
