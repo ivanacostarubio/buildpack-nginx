@@ -46,6 +46,8 @@ cp -r $CACHE_DIR/dart-sdk $BUILD_DIR
 cp -r $CACHE_DIR/dart-sdk /app
 
 
+/app/dart-sdk/bin/pub get
+
 
 ### NGINX 
 
