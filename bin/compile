@@ -57,6 +57,9 @@ for filename in `find . -name pubspec.yaml`; do
 
 
 
+ cp -R $PUB_CACHE $BUILD_DIR/pub-cache
+ message `ls -l $BUILD_DIR/pub-cache`
+
 ### NGINX 
 
 apt-get update
