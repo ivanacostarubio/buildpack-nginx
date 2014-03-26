@@ -46,7 +46,15 @@ cp -r $CACHE_DIR/dart-sdk $BUILD_DIR
 cp -r $CACHE_DIR/dart-sdk /app
 
 
-/app/dart-sdk/bin/pub get
+
+for filename in `find . -name pubspec.yaml`; do
+     pub_dir=`dirname $filename`
+     message "*** Found pubspec.yaml in $BUILD_DIR/$pub_dir"
+     cd $BUILD_DIR/$pub_dir
+     message "*** Running pub get"
+     /app/dart-sdk/bin/pub get
+ done
+
 
 
 ### NGINX 
