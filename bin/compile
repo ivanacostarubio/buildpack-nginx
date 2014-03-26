@@ -1,5 +1,53 @@
 #!/usr/bin/env bash
+
+### DART
+
+# fail fast
 set -e
+#set -x
+unset GIT_DIR
+
+mkdir -p "$1" "$2"
+BUILD_DIR=$(cd "$1/" && pwd)
+CACHE_DIR=$(cd "$2/" && pwd)
+
+# this variable is used by pub to determine the package install location
+PUB_CACHE="/app/pub-cache"
+export PUB_CACHE
+mkdir -p $PUB_CACHE
+
+function message {
+  echo "$1"
+  sync
+}
+
+MACHINE=`uname -a`
+message "-----> Welcome, this machine is: $MACHINE"
+
+if [ -z "$DART_SDK_URL" ]; then
+    message "ERROR: you must specify DART_SDK_URL to a Dart SDK for Linux. See README for this buildpack."
+    exit 1
+fi
+
+cd $BUILD_DIR
+
+message "-----> Installing Dart VM via URL $DART_SDK_URL"
+
+cd $CACHE_DIR
+curl -L $DART_SDK_URL -o - | tar xzf -
+
+message "-----> Copy Dart binaries to app root"
+cp -r $CACHE_DIR/dart-sdk $BUILD_DIR
+
+# we need to copy the sdk into the /app folder in order for the sdk libraries
+# to be referenced correctly
+# reason being that the /tmp folder will be deleted after build, and /app
+# resembles the location of the ready built app
+cp -r $CACHE_DIR/dart-sdk /app
+
+
+
+### NGINX 
 
 apt-get update
 apt-get -y install nginx
